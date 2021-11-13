@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mine</title>
+</head>
+<body class="mine">
+
+<div class="board" style="display: inline-block">
+
+</div>
+
+<div class="led" style="display: inline-block">
+<!--    <div class="frame horizon t" style=""></div>-->
+<!--    <div style="display: flex">-->
+<!--        <div class="frame vertical up left tl" style="display: inline-block"></div>-->
+<!--        <div class="frame vertical up right tr" style="display: inline-block"></div>-->
+<!--    </div>-->
+<!--    <div class="frame mid-up horizon b" style=""></div>-->
+<!--    <div class="frame mid-down horizon t" style=""></div>-->
+<!--    <div style="display: flex">-->
+<!--        <div class="frame vertical down left bl" style="display: inline-block"></div>-->
+<!--        <div class="frame vertical down right br" style="display: inline-block"></div>-->
+<!--    </div>-->
+<!--    <div class="frame horizon b" style=""></div>-->
+</div>
+
+
+<script src="Board.js"></script>
+<script src="LED/LED.js"></script>
+<script>
+
+  new Board('.board', 10, 10, (finish) => {
+    if (finish) {
+      alert('boom!');
+    }
+  })
+
+  // new LED('.led', '58395').display('#8f23fa')
+</script>
+
+<style>
+    .board {
+        border: blueviolet double 4px;
+        border-radius: 1%;
+        /*width: 500px;*/
+        /*height: 500px;*/
+        margin: 100px;
+        display: inline-block;
+    }
+
+    /*.frame {*/
+    /*    background: white;*/
+    /*}*/
+
+    /*.vertical {*/
+    /*    width: 10px;*/
+    /*    height: 80px;*/
+    /*}*/
+
+    /*.right {*/
+    /*    margin-left: 100px;*/
+    /*}*/
+
+    /*.horizon {*/
+    /*    width: 100px;*/
+    /*    height: 10px;*/
+    /*}*/
+
+    /*.b {*/
+    /*    height: 0;*/
+    /*    border-bottom: 10px solid #f1eaea;*/
+    /*    border-left: 10px solid transparent;*/
+    /*    border-right: 10px solid transparent;*/
+    /*    border-radius: 20px;*/
+    /*}*/
+
+    /*.t {*/
+    /*    height: 0;*/
+    /*    border-top: 10px solid #f1eaea;*/
+    /*    border-left: 10px solid transparent;*/
+    /*    border-right: 10px solid transparent;*/
+    /*    border-radius: 20px;*/
+    /*}*/
+
+    /*.left {*/
+    /*    width: 0;*/
+    /*    border-left: 10px solid #f1eaea;*/
+    /*    border-top: 10px solid transparent;*/
+    /*    border-bottom: 10px solid transparent;*/
+    /*    border-radius: 20px;*/
+    /*}*/
+
+    /*.right {*/
+    /*    width: 0;*/
+    /*    border-right: 10px solid #2ded0a;*/
+    /*    border-top: 10px solid transparent;*/
+    /*    border-bottom: 10px solid transparent;*/
+    /*    border-radius: 20px;*/
+    /*}*/
+
+    /*.midUp {*/
+    /*    border-radius: 0;*/
+    /*    border-bottom: 5px solid #f1eaea;*/
+
+    /*}*/
+
+    /*.midDown {*/
+    /*    border-radius: 0;*/
+    /*    border-top: 5px solid #f1eaea;*/
+    /*}*/
+</style>
+</body>
+</html>

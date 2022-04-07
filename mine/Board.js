@@ -25,7 +25,7 @@ class Board {
     this.drawGrid(this.cb)
     if (this.timer) {
       this.timer.end()
-      this.timer.destoryIf()
+      this.timer.destroyIf()
     }
     this.timer = new LEDTimer(this.container)
   }
@@ -154,7 +154,7 @@ class Board {
 class Timer {
   constructor(container) {
     this.end()
-    this.destoryIf()
+    this.destroyIf()
     this.drawTimer(container)
     this.start()
   }
@@ -183,7 +183,7 @@ class Timer {
     clearInterval(this.timerInterval)
   }
 
-  destoryIf() {
+  destroyIf() {
     const timer = document.querySelector('.timer')
     timer && timer.remove()
   }
@@ -193,7 +193,7 @@ class LEDTimer {
   constructor(container) {
     this.container = container
     this.end()
-    this.destoryIf()
+    this.destroyIf()
     this.drawTimer(container)
     this.start()
   }
@@ -211,7 +211,7 @@ class LEDTimer {
     this.cost = 0;
     this.timerInterval = setInterval(() => {
       this.cost++;
-      this.destoryIf()
+      this.destroyIf()
       this.drawTimer(this.container)
       this.timer = new window.LED('.timer', this.cost)
       this.timer.display()
@@ -222,7 +222,7 @@ class LEDTimer {
     clearInterval(this.timerInterval)
   }
 
-  destoryIf() {
-    this.timer && this.timer.destory()
+  destroyIf() {
+    this.timer && this.timer.destroy()
   }
 }

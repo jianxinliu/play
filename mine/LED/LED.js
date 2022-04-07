@@ -19,7 +19,7 @@ class LED {
     })
   }
 
-  destory () {
+  destroy () {
     const timer = document.querySelectorAll(this.container)
     Array.from(timer).forEach(t => t && t.remove())
   }
@@ -118,7 +118,11 @@ const CODE_MAP = {
   7: ['TOP', 'TOP_RIGHT', 'BOTTOM_RIGHT'],
   8: ['TOP', 'TOP_RIGHT', 'TOP_LEFT', 'MID', 'BOTTOM_RIGHT', 'BOTTOM_LEFT', 'BOTTOM'],
   9: ['TOP', 'TOP_RIGHT', 'TOP_LEFT', 'MID', 'BOTTOM_RIGHT', 'BOTTOM'],
-  'F': ['TOP', 'TOP_LEFT', 'MID', 'BOTTOM_LEFT']
+  F: ['TOP', 'TOP_LEFT', 'MID', 'BOTTOM_LEFT'],
+  H: ['TOP_RIGHT', 'TOP_LEFT', 'MID', 'BOTTOM_RIGHT', 'BOTTOM_LEFT'],
+  E: ['TOP', 'TOP_LEFT', 'MID', 'BOTTOM_LEFT', 'BOTTOM'],
+  L: ['TOP_LEFT', 'BOTTOM_LEFT', 'BOTTOM'],
+  O: ['TOP', 'TOP_LEFT', 'BOTTOM_LEFT', 'BOTTOM', 'BOTTOM_RIGHT', 'TOP_RIGHT']
 }
 
 const styleChangeFns = {

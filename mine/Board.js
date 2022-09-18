@@ -1,5 +1,4 @@
 let board = [[]]
-let mineCount = 0
 
 const config = {
   genMineProb: 0.9
@@ -11,6 +10,7 @@ class Board {
     this.cb = cb
     this.boardHeight = height
     this.boardWidth = width
+    this.mineCount = 0;
     this.init()
   }
 
@@ -54,8 +54,8 @@ class Board {
   isSuccess() {
     const boardEle = document.querySelector(this.container)
     const allGrid = Array.from(boardEle.children).map(row => Array.from(row.querySelectorAll('.grid'))).flat();
-    const allTagged = allGrid.filter(f => f.dataset.flag === 'true').length === mineCount
-    const allOpened = allGrid.filter(f => f.dataset.opend === 'true').lenth === (this.boardHeight * this.boardWidth) - mineCount
+    const allTagged = allGrid.filter(f => f.dataset.flag === 'true').length === this.mineCount
+    const allOpened = allGrid.filter(f => f.dataset.opend === 'true').lenth === (this.boardHeight * this.boardWidth) - this.mineCount
     return allTagged || allOpened
   }
 
@@ -138,7 +138,7 @@ class Board {
         const lay = Math.random() > config.genMineProb
         if (lay) {
           row[index] = -1;
-          mineCount++;
+          this.mineCount++;
         }
       })
     })

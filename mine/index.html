@@ -8,6 +8,13 @@
 
 <div class="controlPanel">
     <button onclick="restart()">Restart</button>
+
+    <select id="level" onchange="changeLevel()">
+        <option value="1">简单（6*6）</option>
+        <option value="2">中等（10*10）</option>
+        <option value="3">困难（20*20）</option>
+        <option value="4">魔鬼（30*30）</option>
+    </select>
 </div>
 
 <div class="board" style="display: inline-block">
@@ -15,18 +22,18 @@
 </div>
 
 <div class="led" style="display: inline-block">
-<!--    <div class="frame horizon t" style=""></div>-->
-<!--    <div style="display: flex">-->
-<!--        <div class="frame vertical up left tl" style="display: inline-block"></div>-->
-<!--        <div class="frame vertical up right tr" style="display: inline-block"></div>-->
-<!--    </div>-->
-<!--    <div class="frame mid-up horizon b" style=""></div>-->
-<!--    <div class="frame mid-down horizon t" style=""></div>-->
-<!--    <div style="display: flex">-->
-<!--        <div class="frame vertical down left bl" style="display: inline-block"></div>-->
-<!--        <div class="frame vertical down right br" style="display: inline-block"></div>-->
-<!--    </div>-->
-<!--    <div class="frame horizon b" style=""></div>-->
+    <!--    <div class="frame horizon t" style=""></div>-->
+    <!--    <div style="display: flex">-->
+    <!--        <div class="frame vertical up left tl" style="display: inline-block"></div>-->
+    <!--        <div class="frame vertical up right tr" style="display: inline-block"></div>-->
+    <!--    </div>-->
+    <!--    <div class="frame mid-up horizon b" style=""></div>-->
+    <!--    <div class="frame mid-down horizon t" style=""></div>-->
+    <!--    <div style="display: flex">-->
+    <!--        <div class="frame vertical down left bl" style="display: inline-block"></div>-->
+    <!--        <div class="frame vertical down right br" style="display: inline-block"></div>-->
+    <!--    </div>-->
+    <!--    <div class="frame horizon b" style=""></div>-->
 </div>
 
 
@@ -35,20 +42,33 @@
 <script src="../LED/LED.js"></script>
 <script>
 
-  const mine = new Board('.board', 4, 4, ({boom, cost}) => {
-      const timerStr = ` cost: ${cost}s.`
-    if (boom) {
-        alert('💣💥🤯!' + timerStr);
-    } else {
-        alert('🎇🎇🎇!' + timerStr);
+    const levelMap = {
+        1: [6, 6],
+        2: [10, 10],
+        3: [20, 20],
+        4: [40, 40]
     }
-  })
 
-  function restart() {
-      mine.init()
-  }
+    let mine = changeLevel(1)
 
-  // new LED('.led', 'HELLO').display('#8f23fa')
+    function restart() {
+        mine && mine.init()
+    }
+
+    function changeLevel(level) {
+        const levelValue = level || document.querySelector('#level').value
+        const boardParams = levelMap[levelValue] || levelMap[1]
+        return new Board('.board', ...boardParams, ({boom, cost}) => {
+            const timerStr = ` cost: ${cost}s.`
+            if (boom) {
+                alert('💣💥🤯!' + timerStr);
+            } else {
+                alert('🎇🎇🎇!' + timerStr);
+            }
+        })
+    }
+
+    // new LED('.led', 'HELLO').display('#8f23fa')
 </script>
 
 <style>

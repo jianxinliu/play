@@ -1,4 +1,5 @@
 let board = [[]]
+let mineCount = 0
 
 const config = {
   genMineProb: 0.9
@@ -44,9 +45,18 @@ class Board {
     }
   }
 
+  /**
+   * 游戏是否结束，结束标志：
+   * 1. 所有雷都被标上红旗，或者
+   * 2. 除了雷，所有格子都被翻开
+   * @return {boolean}
+   */
   isSuccess() {
     const boardEle = document.querySelector(this.container)
-    return !Array.from(boardEle.children).some(grid => grid.dataset.opened === 'true' && grid.dataset.value === 0)
+    const allGrid = Array.from(boardEle.children).map(row => Array.from(row.querySelectorAll('.grid'))).flat();
+    const allTagged = allGrid.filter(f => f.dataset.flag === 'true').length === mineCount
+    const allOpened = allGrid.filter(f => f.dataset.opend === 'true').lenth === (this.boardHeight * this.boardWidth) - mineCount
+    return allTagged || allOpened
   }
 
   draw(width = 20, height = 20, values = {}, isMine = () => {}) {
@@ -79,17 +89,11 @@ class Board {
         this.lookEmpty({x: dataset.x - 0, y: dataset.y - 0})
       }
       e.target.style['background-color'] = color
-      setTimeout(() => {
-        isMine(boom)
-        if (boom) {
-          this.init()
-        }
-      }, 100)
+      this.checkResult(boom, isMine)
     })
 
     grid.addEventListener('contextmenu', e => {
       e.preventDefault();
-      console.log(e)
       let dom = e.target
       dom = dom.classList.contains('flag') ? dom.parentNode : dom
       if (dom.dataset.flag === 'true') {
@@ -105,8 +109,27 @@ class Board {
       tip.innerText = '🚩'
       dom.appendChild(tip)
       dom.dataset['flag'] = 'true'
+      this.checkResult(false, isMine)
     })
     return grid
+  }
+
+  checkResult(boom, isMine) {
+    setTimeout(() => {
+      const finish = this.isSuccess()
+      if (boom || finish) {
+        isMine({
+          boom,
+          cost: this.timer.cost
+        })
+      }
+      if (boom) {
+        this.init()
+      }
+      if (finish) {
+        this.timer.end()
+      }
+    }, 100)
   }
 
   genMine() {
@@ -115,6 +138,7 @@ class Board {
         const lay = Math.random() > config.genMineProb
         if (lay) {
           row[index] = -1;
+          mineCount++;
         }
       })
     })

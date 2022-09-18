@@ -6,6 +6,10 @@
 </head>
 <body class="mine">
 
+<div class="controlPanel">
+    <button onclick="restart()">Restart</button>
+</div>
+
 <div class="board" style="display: inline-block">
 
 </div>
@@ -31,11 +35,18 @@
 <script src="../LED/LED.js"></script>
 <script>
 
-  new Board('.board', 10, 10, (finish) => {
-    if (finish) {
-      alert('boom!');
+  const mine = new Board('.board', 4, 4, ({boom, cost}) => {
+      const timerStr = ` cost: ${cost}s.`
+    if (boom) {
+        alert('💣💥🤯!' + timerStr);
+    } else {
+        alert('🎇🎇🎇!' + timerStr);
     }
   })
+
+  function restart() {
+      mine.init()
+  }
 
   // new LED('.led', 'HELLO').display('#8f23fa')
 </script>

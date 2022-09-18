@@ -86,6 +86,26 @@ class Board {
         }
       }, 100)
     })
+
+    grid.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      console.log(e)
+      let dom = e.target
+      dom = dom.classList.contains('flag') ? dom.parentNode : dom
+      if (dom.dataset.flag === 'true') {
+        const flag = dom.querySelector('.flag')
+        dom.removeChild(flag)
+        dom.dataset.flag = 'false'
+        return
+      }
+      const tip = document.createElement('div');
+      tip.setAttribute('class', 'flag')
+      tip.setAttribute('style', 'font-weight: bold; margin: 0 5px; ' +
+          'position: absolute; font-size: 35px;')
+      tip.innerText = '🚩'
+      dom.appendChild(tip)
+      dom.dataset['flag'] = 'true'
+    })
     return grid
   }
 

@@ -55,21 +55,22 @@ class Board {
     const boardEle = document.querySelector(this.container)
     const allGrid = Array.from(boardEle.children).map(row => Array.from(row.querySelectorAll('.grid'))).flat();
     const allTagged = allGrid.filter(f => f.dataset.flag === 'true').length === this.mineCount
-    const allOpened = allGrid.filter(f => f.dataset.opend === 'true').lenth === (this.boardHeight * this.boardWidth) - this.mineCount
+    const allOpened = allGrid.filter(f => f.dataset.opend === 'true').length === (this.boardHeight * this.boardWidth) - this.mineCount
     return allTagged || allOpened
   }
 
   draw(width = 20, height = 20, values = {}, isMine = () => {}) {
     const {value, x, y} = values;
     const grid = document.createElement('div')
-    grid.setAttribute('data-value', value)
-    grid.setAttribute('data-opened', 'false')
-    grid.setAttribute('data-x', x)
-    grid.setAttribute('data-y', y)
+    grid.dataset.value = value
+    grid.dataset.opened = 'false'
+    grid.dataset.x = x
+    grid.dataset.y = y
     grid.setAttribute('style',
       `width: ${width}px; height: ${height}px; background-color: grey;
         display: inline-block; border: 1px green solid; margin: 0px;`)
     grid.setAttribute('class', 'grid')
+
     grid.addEventListener('click', (e) => {
       e.target.setAttribute('data-opened', 'true')
       const value = e.target.dataset.value - 0
@@ -108,7 +109,7 @@ class Board {
           'position: absolute; font-size: 35px;')
       tip.innerText = '🚩'
       dom.appendChild(tip)
-      dom.dataset['flag'] = 'true'
+      dom.dataset.flag = 'true'
       this.checkResult(false, isMine)
     })
     return grid

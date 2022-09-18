@@ -75,7 +75,8 @@ class Board {
         tip.innerText = value
         e.target.appendChild(tip)
       } else if (value === 0) {
-        this.lookEmpty(e.target)
+        const dataset = e.target.dataset
+        this.lookEmpty({x: dataset.x - 0, y: dataset.y - 0})
       }
       e.target.style['background-color'] = color
       setTimeout(() => {
@@ -110,13 +111,47 @@ class Board {
   }
 
   /**
-   * 点击到空时，将其周围的空全展示
-   * @param target
+   * 点击到空时，将其周围可达的空格全展示
+   * @param currentPos 当前位置
    */
-  lookEmpty(target) {
-    const {x, y} = target.dataset
-    console.log(x, y)
+  lookEmpty(currentPos) {
+    // right
+    this.lookEmptyDir(currentPos, ({x, y}) => ({x: x + 1, y}))
+    // left
+    this.lookEmptyDir(currentPos, ({x, y}) => ({x: x - 1, y}))
+    // up
+    this.lookEmptyDir(currentPos, ({x, y}) => ({x, y: y - 1}))
+    // down
+    this.lookEmptyDir(currentPos, ({x, y}) => ({x, y: y + 1}))
+  }
 
+  /**
+   * 向某一方向前进寻找空的格子，是空格子则翻开
+   * @param startPos 起始位置
+   * @param nextPosFn 下一个位置的生成函数
+   */
+  lookEmptyDir(startPos = {}, nextPosFn) {
+    const {x, y} = nextPosFn(startPos)
+    const edgeMagic = -7
+    const current = this.getPosValue(board, x, y, edgeMagic)
+    if (current !== 0 || current === edgeMagic) {
+      return
+    }
+    // 是 0
+
+    // 找到坐标是 x,y 的这个格子的 dom 元素
+    const currentDom = document.querySelector(`div [data-x="${x}"][data-y="${y}"]`)
+    if (currentDom) {
+      // 翻过了，跳过该方向
+      if (currentDom.dataset.opened === 'true') {
+        return
+      }
+      // 翻开该处
+      currentDom.setAttribute('data-opened', 'true')
+      currentDom.style['background-color'] = 'white'
+    }
+    // 继续遍历该方向
+    this.lookEmpty({x, y})
   }
 
   /**
@@ -141,8 +176,8 @@ class Board {
     return wn + w + ws + s + es + e + en + n;
   }
 
-  getPosValue(board, x, y) {
-    let ret = 0
+  getPosValue(board, x, y, defaultValue = 0) {
+    let ret = defaultValue
     try {
       ret = board[x][y]
     } catch (e) {

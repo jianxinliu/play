@@ -21,6 +21,7 @@ class Board {
     board.forEach((row, index) => {
       board[index] = new Array(this.boardWidth).fill(0)
     })
+    this.mineCount = 0;
     this.genMine()
     this.genTips()
     this.drawGrid(this.cb)
@@ -54,7 +55,7 @@ class Board {
   isSuccess() {
     const boardEle = document.querySelector(this.container)
     const allGrid = Array.from(boardEle.children).map(row => Array.from(row.querySelectorAll('.grid'))).flat();
-    const allTagged = allGrid.filter(f => f.dataset.flag === 'true').length === this.mineCount
+    const allTagged = allGrid.filter(f => f.dataset.flag === 'true' && f.dataset.value === '-1').length === this.mineCount
     const allOpened = allGrid.filter(f => f.dataset.opend === 'true').length === (this.boardHeight * this.boardWidth) - this.mineCount
     return allTagged || allOpened
   }
@@ -143,6 +144,11 @@ class Board {
         }
       })
     })
+    if (this.mineCount === 0) {
+      console.log('regenerate mines')
+      this.genMine()
+    }
+    console.log('mineCount', this.mineCount)
   }
 
   genTips() {

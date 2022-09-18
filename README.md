@@ -10,11 +10,17 @@
 
 ![img_1.png](assets/auto_open_empty.png)
 
+1. 自动检测是否游戏结束；
+2. 难度选择
+3. 游戏重置
+
+![img_1.png](assets/mine2.png)
+
 ## LED
 
 简易 LED 显示，在扫雷游戏中用于计时。也可单独用来显示数字及部分字母
 
-![img.png](img.png)
+![img.png](assets/led.png)
 
 ```js
 new LED('.led', 'HELLO').display('#8f23fa')

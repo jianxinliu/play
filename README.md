@@ -16,6 +16,12 @@
 
 ![img_1.png](assets/mine2.png)
 
+## 贪吃蛇
+
+控制：上下左右\WASD
+
+![Alt text](assets/snake.png)
+
 ## LED
 
 简易 LED 显示，在扫雷游戏中用于计时。也可单独用来显示数字及部分字母

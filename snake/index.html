@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+</head>
+
+<body>
+    <div id="clock"></div>
+    <div id="board"></div>
+</body>
+
+<script src="../LED/LED.js"></script>
+<script src="./app.js"></script>
+<script>
+    let score = 0
+    const scoreEle = document.getElementById('clock')
+
+    let maxScore = window.localStorage.getItem('makSnake') || 0
+
+    const boardElement = new BoardElement()
+    boardElement.create()
+
+    const body = boardElement.createSnakeBody()
+
+    const snake = new Snake(body, boardElement)
+
+    snake.move([1, 0])
+    function callMove(pos) {
+        let e = false
+        try {
+            e = snake.move(pos)
+        } catch (e) {
+            console.log(e);
+            clearInterval(interval)
+            if (score > maxScore) {
+                window.localStorage.setItem('maxSnake', score)
+            }
+            alert(e)
+        }
+        if (e) {
+            score++
+        }
+        scoreEle.innerText = score
+    }
+    let interval = setInterval(() => {
+        callMove()
+    }, 300)
+
+    registerKeyListener()
+
+    const eventHandlerMap = {
+        up: () => {
+            callMove([0, -1])
+        },
+        down: () => {
+            callMove([0, 1])
+        },
+        left: () => {
+            callMove([-1, 0])
+        },
+        right: () => {
+            callMove([1, 0])
+        },
+    }
+
+</script>
+
+<style>
+    #clock {
+        margin: auto;
+        width: 50px;
+        height: 20px;
+        line-height: 20px;
+        color: black;
+        background-color: cadetblue;
+        text-align: center;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        border: 2px solid lightblue;
+        display: inline-block;
+    }
+
+    #board {
+        display: grid;
+        border: 1px solid lightblue;
+        margin: auto;
+        padding: 3px;
+    }
+
+    .grid {
+        width: 10px;
+        height: 10px;
+        font-size: 2px;
+    }
+
+    .food {
+        background: red;
+        border-radius: 5px;
+    }
+
+    .snake {
+        background: black;
+        border-radius: 2px;
+    }
+</style>
+
+</html>
